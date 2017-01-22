@@ -57,6 +57,8 @@ public class WeatherActivity extends AppCompatActivity {
 
     private TextView sportText;
 
+    private TextView cityTitleInNow;
+
     private Button selectCountyButton;
 
     private ImageView bingPic;
@@ -72,22 +74,10 @@ public class WeatherActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /*if (Build.VERSION.SDK_INT >= 21) {
+        if (Build.VERSION.SDK_INT >= 21) {
             View decorView = getWindow().getDecorView();
             decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
-        }*/
-
-        if(Build.VERSION.SDK_INT >= 21) {
-            Window window = getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.TRANSPARENT);
-            window.setNavigationBarColor(Color.TRANSPARENT);
         }
 
         setContentView(R.layout.weather_activity);
@@ -107,6 +97,8 @@ public class WeatherActivity extends AppCompatActivity {
         carWashText = (TextView) findViewById(R.id.car_wash_text);
         sportText = (TextView) findViewById(R.id.sport_text);
         bingPic = (ImageView) findViewById(R.id.bing_pic_img);
+        cityTitleInNow = (TextView) findViewById(R.id.city_title_in_now);
+
 
         //layout
         forecastLayout = (LinearLayout) findViewById(R.id.forecast_layout);
@@ -132,12 +124,12 @@ public class WeatherActivity extends AppCompatActivity {
         }
 
         //Background picture
-        String bingpic = preferences.getString("bing_pic", null);
+        /*String bingpic = preferences.getString("bing_pic", null);
         if (bingpic != null) {
             Glide.with(this).load(bingpic).into(bingPic);
         } else {
             loadPicture();
-        }
+        }*/
 
         //select new county button
         selectCountyButton.setOnClickListener(new View.OnClickListener() {
@@ -212,11 +204,12 @@ public class WeatherActivity extends AppCompatActivity {
 
     private void showWeatherInfo (Weather weather) {
         String cityName = weather.basic.cityName;
-        String updateTime = weather.basic.update.updateTime.split(" ")[1];
+        String updateTime = "更新时间:" + weather.basic.update.updateTime.split(" ")[1];
         String degree = weather.now.temperature + "℃";
         String weatherInfo = weather.now.more.info;
 
-        titleCity.setText(cityName);
+        //titleCity.setText(cityName);
+        cityTitleInNow.setText(cityName);
         titleUpdateTime.setText(updateTime);
         degreeText.setText(degree);
         weatherIndoText.setText(weatherInfo);

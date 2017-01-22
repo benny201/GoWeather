@@ -124,6 +124,7 @@ public class ChooseAreaFragment extends Fragment {
             }
         });
 
+        //以province开始
         queryProvinces();
     }
 
