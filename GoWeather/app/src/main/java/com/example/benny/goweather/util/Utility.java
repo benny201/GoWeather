@@ -1,6 +1,9 @@
 package com.example.benny.goweather.util;
 
+import android.content.Context;
+import android.graphics.Typeface;
 import android.text.TextUtils;
+import android.widget.TextView;
 
 import com.example.benny.goweather.db.City;
 import com.example.benny.goweather.db.County;
@@ -19,7 +22,6 @@ public class Utility {
 
 
     //解析JSON返回省级数据
-
     public static boolean handleProvinceResponse(String response) {
         if (!TextUtils.isEmpty(response)) {
             try {
@@ -85,7 +87,6 @@ public class Utility {
     //解析天气JSON返回数据
     public static Weather handleWeatherResponse(String response) {
         try {
-
             JSONObject jsonObject = new JSONObject(response);
             JSONArray jsonArray = jsonObject.getJSONArray("HeWeather");
             String weatherContent = jsonArray.getJSONObject(0).toString();
@@ -95,5 +96,11 @@ public class Utility {
             e.printStackTrace();
         }
         return null;
+    }
+
+    //set Textview typeface
+    public static void typeFaceStter(Context context, TextView textView, String path) {
+        Typeface typeface = Typeface.createFromAsset(context.getAssets(), path);
+        textView.setTypeface(typeface);
     }
 }

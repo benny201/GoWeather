@@ -3,7 +3,9 @@ package com.example.benny.goweather;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -91,16 +93,21 @@ public class ChooseAreaFragment extends Fragment {
                     selectedProvince = provinceList.get(position);
                     queryCities();
                 } else if (currentLevel == LEVEL_CITY) {
-                    Log.d(TAG, "onItemClick: city" );
+                    //Log.d(TAG, "onItemClick: city" );
                     selectedCity = cityList.get(position);
                     queryCounties();
                 } else if (currentLevel == LEVEL_COUNTY) {
                     String weatherId = countyList.get(position).getWeatherId();
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MyAppContext.getContext());
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("weather_id", weatherId);
+                    Log.d(TAG, "onItemClick: id" + weatherId );
+                    editor.commit();
 
                     if (getActivity() instanceof  MainActivity) {
                         Intent intent = new Intent(getActivity(), WeatherActivity.class);
                         intent.putExtra("weather_id", weatherId);
-                        Log.d(TAG, "onItemClick: " + getActivity());
+                        //Log.d(TAG, "onItemClick: " + getActivity());
                         getActivity().startActivity(intent);
                         getActivity().finish();
                     } else if (getActivity() instanceof WeatherActivity) {
